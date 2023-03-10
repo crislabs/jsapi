@@ -9,11 +9,10 @@ export function slug(str: string) {
   return str
     .trim()
     .toLowerCase()
-    .replace(/[\u002F]/g, '')
-    .replace(/[\u0000]/g, '')
-    .replace(/’/g, ' ')
+    .replace(/[\u002F-\u003F-\u0060]/g, '')
     .replace(/-/g, ' ')
     .normalize('NFD')
+    .replace(/[\u2019]/g, '')
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/-/g, '')
     .replace(/:/g, '')
@@ -21,7 +20,6 @@ export function slug(str: string) {
     .replace(/\s+/g, ' ')
     .replace(/ /g, '-');
 }
-
 /**
  * Returns string by uuidv4.
  *
