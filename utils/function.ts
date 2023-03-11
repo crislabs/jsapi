@@ -9,9 +9,11 @@ export function slug(str: string) {
   return str
     .trim()
     .toLowerCase()
-    .replace(/[\u002F-\u003F-\u0060]/g, '')
+    .replace(/[\u002F]/g, '')
     .replace(/-/g, ' ')
     .normalize('NFD')
+    .replace(/[\u003F]/g, '')
+    .replace(/[\u0060]/g, '')
     .replace(/[\u2019]/g, '')
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/-/g, '')

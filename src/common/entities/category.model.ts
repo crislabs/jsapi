@@ -45,6 +45,10 @@ export class ComponentCategory {
 
 @ObjectType()
 export class PortfolioCategory0 extends Category {}
+@ObjectType()
+export class PortfolioCategory1 extends Category {}
 
 @ObjectType()
 export class ListPortfolioCategory0 extends RelayTypes<PortfolioCategory0>(PortfolioCategory0) {}
+@ObjectType()
+export class ListPortfolioCategory1 extends RelayTypes<PortfolioCategory1>(PortfolioCategory1) {}
