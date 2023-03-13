@@ -66,7 +66,7 @@ export class PortfolioArticleResolver {
     return this.portfolioService.deleteOne(id);
   }
 
-  @Mutation(() => [String], { name: 'portfolioDeleteArticles' })
+  @Mutation(() => [String], { name: 'portfolioDeleteArticlesById' })
   deleteArticlesById(@Args('ids', { type: () => [String] }) ids: string[]) {
     return this.portfolioService.deleteMany(ids);
   }

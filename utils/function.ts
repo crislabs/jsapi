@@ -9,7 +9,7 @@ export function slug(str: string) {
   return str
     .trim()
     .toLowerCase()
-    .replace(/[\u002F]/g, '')
+    .replace(/[\u002F]/g, '-')
     .replace(/-/g, ' ')
     .normalize('NFD')
     .replace(/[\u003F]/g, '')
