@@ -14,8 +14,10 @@ import { connectionFromArraySlice } from 'graphql-relay';
 import {
   DataCategory,
   ListPortfolioCategory0,
+  ListPortfolioCategory1,
   PortfolioCategory0,
   PortfolioCategory1,
+  PortfolioCategory2,
 } from 'src/common/entities/category.model';
 import { PortfolioCategory0Service } from '../services/categories0.service';
 import { CreateCategory, UpdateCategory } from 'src/common/dto/category.input';
@@ -30,50 +32,51 @@ import { PortfolioArticle } from 'src/common/entities/article.model';
 import { ListInput } from 'src/common/pagination/dto/list.input';
 import { PortfolioArticleService } from '../../articles/articles.service';
 import { PortfolioCategory1Service } from '../services/categories1.service';
+import { PortfolioCategory2Service } from '../services/categories2.service';
 // import { PortfolioAdoptionService } from 'src/adoptions/categories/portfolio/category.service';
 // import { PortfolioProductService } from 'src/products/categories/portfolio/category.service';
 // import { PortfolioArticleService } from 'src/articles/categories/portfolio/category.service';
 // import { PortfolioProductService } from 'src/products/categories/portfolio/category.service';
 // import { PortfolioAdoption } from 'src/common/entities/adoption.model';
 
-@Resolver(() => PortfolioCategory0)
-export class PortfolioCategory0Resolver {
+@Resolver(() => PortfolioCategory2)
+export class PortfolioCategory2Resolver {
   constructor(
-    private readonly category0Service: PortfolioCategory0Service,
-    private readonly category1Service: PortfolioCategory1Service,
+    private readonly category2Service: PortfolioCategory2Service,
+    // private readonly category1Service: PortfolioCategory1Service,
     // // private readonly adoptionService: PortfolioAdoptionService,
     // private readonly productService: PortfolioProductService,
     private readonly articleService: PortfolioArticleService,
   ) {}
 
-  @Mutation(() => PortfolioCategory0, { name: 'portfolioCreateCategory0' })
+  @Mutation(() => PortfolioCategory1, { name: 'portfolioCreateCategory2' })
   createCategory(@Args('input') input: CreateCategory) {
-    return this.category0Service.create(input);
+    return this.category2Service.create(input);
   }
 
-  @Mutation(() => PortfolioCategory0, { name: 'portfolioUpdateCategory0ById' })
+  @Mutation(() => PortfolioCategory1, { name: 'portfolioUpdateCategory2ById' })
   updateCategory(
     @Args('input') input: UpdateCategory,
     // @Args('type') type: string,
   ) {
-    return this.category0Service.update(input);
+    return this.category2Service.update(input);
   }
 
-  @Mutation(() => PortfolioCategory0, { name: 'portfolioUpdateImageCategory0ById' })
+  @Mutation(() => PortfolioCategory1, { name: 'portfolioUpdateImageCategory2ById' })
   updateImage(@Args('input') input: UpdateImage) {
-    return this.category0Service.updateImage(input);
+    return this.category2Service.updateImage(input);
   }
 
-  // @Mutation(() => String, { name: 'portfolioDeleteCategory0' })
+  // @Mutation(() => String, { name: 'portfolioDeleteCategory1' })
   // deleteCategory(@Args('id') id: string) {
   //   this.category1Service.deleteManyByParentId([id]);
   //   // this.adoptionService.deleteManyByParentId([id]);
   //   this.productService.deleteManyByParentId([id]);
   //   this.articleService.deleteManyByParentId([id]);
-  //   return this.category0Service.deleteOne(id);
+  //   return this.category1Service.deleteOne(id);
   // }
 
-  @Mutation(() => [String], { name: 'portfolioDeleteCategories0ById' })
+  @Mutation(() => [String], { name: 'portfolioDeleteCategories2ById' })
   deleteCategorysById(
     @Args('ids', { type: () => [String] }) ids: string[],
   ) {
@@ -81,63 +84,63 @@ export class PortfolioCategory0Resolver {
     // this.adoptionService.deleteManyByParentId(ids);
     // this.productService.deleteManyByParentId(ids);
     this.articleService.deleteManyByParentId(ids);
-    return this.category0Service.deleteMany(ids);
+    return this.category2Service.deleteMany(ids);
   }
 
-  // @Mutation(() => String, { name: 'portfolioDeleteAllCategorys0' })
+  // @Mutation(() => String, { name: 'portfolioDeleteAllCategorys1' })
   // deleteAllCategorys() {
   //   this.category1Service.deleteAll();
   //   // this.adoptionService.deleteAll();
   //   this.productService.deleteAll();
   //   this.articleService.deleteAll();
-  //   return this.category0Service.deleteAll();
+  //   return this.category1Service.deleteAll();
   // }
 
-  @Query(() => PortfolioCategory0, { name: 'portfolioGetCategory0ById' })
+  @Query(() => PortfolioCategory1, { name: 'portfolioGetCategory2ById' })
   findCategory(@Args('id') id: string) {
-    return this.category0Service.findOne(id);
+    return this.category2Service.findOne(id);
   }
 
-  @Query(() => PortfolioCategory0, { name: 'portfolioGetCategory0BySlug' })
+  @Query(() => PortfolioCategory1, { name: 'portfolioGetCategory2BySlug' })
   findCategoryBySlug(@Args('slug') slug: string, @Args('siteId') siteId: string) {
-    return this.category0Service.findOneBySlug(slug, siteId);
+    return this.category2Service.findOneBySlug(slug, siteId);
   }
 
-  @Query(() => [PortfolioCategory0], { name: 'portfolioGetCategories0' })
+  @Query(() => [PortfolioCategory1], { name: 'portfolioGetCategories2' })
   findCategorys() {
-    return this.category0Service.findAll();
+    return this.category2Service.findAll();
   }
 
-  @Query(() => [PortfolioCategory0], { name: 'portfolioGetCategories0ByParentId' })
+  @Query(() => [PortfolioCategory1], { name: 'portfolioGetCategories2ByParentId' })
   findCategorysByParentId(
     @Args('parentId') parentId: string,
     // @Args('type') type: string,
   ) {
-    return this.category0Service.findByParentId(parentId);
+    return this.category2Service.findByParentId(parentId);
   }
 
-  @Query(() => [PortfolioCategory0], { name: 'portfolioGetCategories0BySiteId' })
+  @Query(() => [PortfolioCategory1], { name: 'portfolioGetCategories2BySiteId' })
   findCategorysBySiteId(
     @Args('siteId') siteId: string,
   ) {
-    return this.category0Service.findBySiteId(siteId);
+    return this.category2Service.findBySiteId(siteId);
   }
 
-  @Query(() => [PortfolioCategory0], { name: 'portfolioGetCategories0ByParentIdByPagination' })
+  @Query(() => [PortfolioCategory1], { name: 'portfolioGetCategories2ByParentIdByPagination' })
   findCategorysByParentIdByPagination(
     @Args('listInput') listInput: ListInput,
     @Args('parentId') parentId: string,
   ) {
-    return this.category0Service.findByParentIdByPagination(listInput,parentId);
+    return this.category2Service.findByParentIdByPagination(listInput,parentId);
   }
 
-  @Query(() => ListPortfolioCategory0, { name: 'portfolioGetCategories0WithCursorByParentId' })
+  @Query(() => ListPortfolioCategory1, { name: 'portfolioGetCategories2WithCursorByParentId' })
   async findAllWithCursor(
     @Args('args') args: ConnectionArgs,
     @Args('parentId') parentId: string,
   ): Promise<ListPortfolioCategory0> {
     const { limit, offset } = getPagingParameters(args);
-    const { data, count } = await this.category0Service.findByCursor(
+    const { data, count } = await this.category2Service.findByCursor(
       {
         limit,
         offset,
@@ -163,16 +166,16 @@ export class PortfolioCategory0Resolver {
   //     return null;
   //   }
   // }
-  @ResolveField('categories', () => [PortfolioCategory1], { nullable: 'itemsAndList' })
-  getCategorys(@Parent() { _id, data }: PortfolioCategory0) {
-    const { type } = data as DataCategory;
-    const { slug } = type as Type;
-    if (slug === 'category') {
-      return this.category1Service.findByParentId(_id.toString());
-    } else {
-      return null;
-    }
-  }
+  // @ResolveField('categorys', () => [PortfolioCategory1], { nullable: 'itemsAndList' })
+  // getCategorys(@Parent() { _id, data }: PortfolioCategory0) {
+  //   // const { type } = dataCategory as DataCategory;
+  //   // const { slug } = type as Type;
+  //   return this.category1Service.findByParentId(_id.toString());
+  //   // if (slug === 'category') {
+  //   // } else {
+  //   //   return null;
+  //   // }
+  // }
   // @ResolveField('products', () => [PortfolioProduct], { nullable: 'itemsAndList' })
   // getProduct(@Parent() { _id, data }: PortfolioCategory0) {
   //   const { type } = data as DataCategory;

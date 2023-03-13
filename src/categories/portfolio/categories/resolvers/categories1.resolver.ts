@@ -17,6 +17,7 @@ import {
   ListPortfolioCategory1,
   PortfolioCategory0,
   PortfolioCategory1,
+  PortfolioCategory2,
 } from 'src/common/entities/category.model';
 import { PortfolioCategory0Service } from '../services/categories0.service';
 import { CreateCategory, UpdateCategory } from 'src/common/dto/category.input';
@@ -31,6 +32,7 @@ import { PortfolioArticle } from 'src/common/entities/article.model';
 import { ListInput } from 'src/common/pagination/dto/list.input';
 import { PortfolioArticleService } from '../../articles/articles.service';
 import { PortfolioCategory1Service } from '../services/categories1.service';
+import { PortfolioCategory2Service } from '../services/categories2.service';
 // import { PortfolioAdoptionService } from 'src/adoptions/categories/portfolio/category.service';
 // import { PortfolioProductService } from 'src/products/categories/portfolio/category.service';
 // import { PortfolioArticleService } from 'src/articles/categories/portfolio/category.service';
@@ -41,7 +43,7 @@ import { PortfolioCategory1Service } from '../services/categories1.service';
 export class PortfolioCategory1Resolver {
   constructor(
     private readonly category1Service: PortfolioCategory1Service,
-    // private readonly category1Service: PortfolioCategory1Service,
+    private readonly category2Service: PortfolioCategory2Service,
     // // private readonly adoptionService: PortfolioAdoptionService,
     // private readonly productService: PortfolioProductService,
     private readonly articleService: PortfolioArticleService,
@@ -153,6 +155,16 @@ export class PortfolioCategory1Resolver {
     return { category, categoryData: { count, limit, offset } };
   }
 
+  @ResolveField('categories', () => [PortfolioCategory2], { nullable: 'itemsAndList' })
+  getCategorys(@Parent() { _id, data }: PortfolioCategory1) {
+    const { type } = data as DataCategory;
+    const { slug } = type as Type;
+    if (slug === 'category') {
+      return this.category2Service.findByParentId(_id.toString());
+    } else {
+      return null;
+    }
+  }
   // @ResolveField('adoptions', () => [PortfolioAdoption], { nullable: 'itemsAndList' })
   // getAdoption(@Parent() { _id, data }: PortfolioCategory0) {
   //   const { type } = data as DataCategory;
