@@ -39,6 +39,8 @@ export class DataArticle {
   readonly likes?: string[];
   @Field(() => [Image], { nullable: true })
   readonly images?: Image[];
+  @Field(() => [String], { nullable: true })
+  readonly paths?: string[];
 }
 
 

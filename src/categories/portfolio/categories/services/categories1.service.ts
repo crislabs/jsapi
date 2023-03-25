@@ -20,7 +20,7 @@ export class PortfolioCategory1Service {
     private categoryModel: Model<CategoryDocument>,
   ) { }
 
-  async create(input: CreateCategory) {
+  async create(input: CreateCategory, paths: string[]) {
     const category = await this.categoryModel.findOne(
       {
         slug: slug(input.name),
@@ -36,7 +36,7 @@ export class PortfolioCategory1Service {
         `Ya tienes una página con este nombre "${input.name}" registrado`,
       );
     }
-    const createdDocument = new this.categoryModel(categoryCreated(input));
+    const createdDocument = new this.categoryModel(categoryCreated(input, paths));
     return (await createdDocument.save()).toJSON();
   }
 

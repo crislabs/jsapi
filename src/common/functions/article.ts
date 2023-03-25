@@ -20,7 +20,6 @@ export function articleCreated({
       author: uid,
       name: name,
       description: description,
-      
       updateDate: {
         createdAt: new Date(),
         lastUpdatedAt: new Date(),
@@ -32,6 +31,7 @@ export function articleCreated({
           },
         ],
       },
+      paths: [slug(name)]
     },
   };
 }

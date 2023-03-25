@@ -76,17 +76,17 @@ export class PortfolioSiteResolver {
     return this.siteService.deleteOne(id);
   }
 
-  // @Mutation(() => [String], { name: 'portfolioDeleteSites' })
-  // deleteMany(@Args('ids', { type: () => [String] }) ids: string[]) {
-  //   this.pageService.deleteManyBySiteId(ids);
-  //   this.userService.deleteManyBySiteId(ids);
-  //   this.commentService.deleteManyBySiteId(ids);
-  //   this.productService.deleteManyBySiteId(ids);
-  //   // this.adoptionService.deleteManyBySiteId(ids);
-  //   this.articleService.deleteManyBySiteId(ids);
-  //   this.teamService.deleteManyBySiteId(ids);
-  //   return this.siteService.deleteMany(ids);
-  // }
+  @Mutation(() => [String], { name: 'portfolioDeleteSites' })
+  deleteMany(@Args('ids', { type: () => [String] }) ids: string[]) {
+    this.pageService.deleteManyBySiteId(ids);
+    // this.userService.deleteManyBySiteId(ids);
+    // this.commentService.deleteManyBySiteId(ids);
+    // this.productService.deleteManyBySiteId(ids);
+    // this.adoptionService.deleteManyBySiteId(ids);
+    // this.articleService.deleteManyBySiteId(ids);
+    // this.teamService.deleteManyBySiteId(ids);
+    return this.siteService.deleteMany(ids);
+  }
 
   // @Mutation(() => String, { name: 'portfolioDeleteAllSites' })
   // deleteAll() {

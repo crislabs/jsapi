@@ -8,9 +8,9 @@ import { PortfolioUserModule } from './users/users.module';
 
 @Module({
   imports: [
+    PortfolioPageModule,
     PortfolioArticleModule,
     PortfolioSiteModule,
-    PortfolioPageModule,
     PortfolioCategoryModule,
     PortfolioUserModule,
     PortfolioAuthModule,

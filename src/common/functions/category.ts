@@ -13,7 +13,9 @@ export function categoryCreated({
   parentId,
   siteId,
   uid,
-}: CreateCategory) {
+}: CreateCategory,
+paths: string[]
+) {
   return {
     _id: new Types.ObjectId(),
     data: {
@@ -37,6 +39,7 @@ export function categoryCreated({
         ],
       },
       siteId: siteId,
+      paths: [...paths, slug(name)]
     },
     parentId: parentId,
     slug: slug(name),

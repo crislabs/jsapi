@@ -37,6 +37,7 @@ export function pageCreated({
         ],
       },
       siteId: siteId,
+      paths: [slug(name)]
     },
     parentId: parentId,
     slug: slug(name),

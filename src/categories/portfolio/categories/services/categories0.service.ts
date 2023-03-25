@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, HttpException, HttpStatus, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, forwardRef, HttpException, HttpStatus, Inject, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateCategory, UpdateCategory } from 'src/common/dto/category.input';
@@ -13,15 +13,17 @@ import {
 } from 'src/common/functions/category';
 import { ListInput } from 'src/common/pagination/dto/list.input';
 import { slug } from 'utils/function';
+import { PortfolioPageService } from '../../pages/pages.service';
 
 @Injectable()
 export class PortfolioCategory0Service {
   constructor(
     @InjectModel(PortfolioCategory0.name, 'portfolioDB')
     private categoryModel: Model<CategoryDocument>,
+    
   ) { }
-
-  async create(input: CreateCategory) {
+  
+  async create(input: CreateCategory, paths: string[]) {
     const category = await this.categoryModel.findOne(
       {
         slug: slug(input.name),
@@ -44,7 +46,7 @@ export class PortfolioCategory0Service {
       // throw new ForbiddenException();
       // throw new BadRequestException('Something bad happened', { cause: new Error(), description: 'Some error description' })
     }
-    const createdDocument = new this.categoryModel(categoryCreated(input));
+    const createdDocument = new this.categoryModel(categoryCreated(input, paths));
     return (await createdDocument.save()).toJSON();
   }
 

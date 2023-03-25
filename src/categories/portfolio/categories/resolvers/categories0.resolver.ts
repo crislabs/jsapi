@@ -20,35 +20,27 @@ import {
 import { PortfolioCategory0Service } from '../services/categories0.service';
 import { CreateCategory, UpdateCategory } from 'src/common/dto/category.input';
 import { UpdateImage } from 'src/common/dto/site.input';
-import { PortfolioProduct } from 'src/common/entities/product.model';
 import { Type } from 'src/common/entities/site.model';
-// import { PortfolioAdoptionService } from 'src/products/categories/portfolio/portfolio-adoption/category.service';
-// import { PortfolioProductService } from 'src/products/categories/portfolio/portfolio/category.service';
-// import { PortfolioArticleService } from 'src/articles/categories/portfolio/category.service';
 import { PortfolioArticle } from 'src/common/entities/article.model';
-// import { PortfolioCategory1Service } from '../services/category1.service';
 import { ListInput } from 'src/common/pagination/dto/list.input';
 import { PortfolioArticleService } from '../../articles/articles.service';
 import { PortfolioCategory1Service } from '../services/categories1.service';
-// import { PortfolioAdoptionService } from 'src/adoptions/categories/portfolio/category.service';
-// import { PortfolioProductService } from 'src/products/categories/portfolio/category.service';
-// import { PortfolioArticleService } from 'src/articles/categories/portfolio/category.service';
-// import { PortfolioProductService } from 'src/products/categories/portfolio/category.service';
-// import { PortfolioAdoption } from 'src/common/entities/adoption.model';
+import { PortfolioPageService } from '../../pages/pages.service';
 
 @Resolver(() => PortfolioCategory0)
 export class PortfolioCategory0Resolver {
   constructor(
+    private readonly pageService: PortfolioPageService,
     private readonly category0Service: PortfolioCategory0Service,
     private readonly category1Service: PortfolioCategory1Service,
-    // // private readonly adoptionService: PortfolioAdoptionService,
-    // private readonly productService: PortfolioProductService,
     private readonly articleService: PortfolioArticleService,
   ) {}
 
   @Mutation(() => PortfolioCategory0, { name: 'portfolioCreateCategory0' })
-  createCategory(@Args('input') input: CreateCategory) {
-    return this.category0Service.create(input);
+  async createCategory(@Args('input') input: CreateCategory) {
+    const { data: { paths }} = await this.pageService.findOne(input.parentId)
+    
+    return this.category0Service.create(input, paths);
   }
 
   @Mutation(() => PortfolioCategory0, { name: 'portfolioUpdateCategory0ById' })
@@ -64,34 +56,34 @@ export class PortfolioCategory0Resolver {
     return this.category0Service.updateImage(input);
   }
 
-  // @Mutation(() => String, { name: 'portfolioDeleteCategory0' })
-  // deleteCategory(@Args('id') id: string) {
-  //   this.category1Service.deleteManyByParentId([id]);
-  //   // this.adoptionService.deleteManyByParentId([id]);
-  //   this.productService.deleteManyByParentId([id]);
-  //   this.articleService.deleteManyByParentId([id]);
-  //   return this.category0Service.deleteOne(id);
-  // }
+  @Mutation(() => String, { name: 'portfolioDeleteCategory0ById' })
+  deleteCategory(@Args('id') id: string) {
+    this.category1Service.deleteManyByParentId([id]);
+    // this.adoptionService.deleteManyByParentId([id]);
+    // this.productService.deleteManyByParentId([id]);
+    this.articleService.deleteManyByParentId([id]);
+    return this.category0Service.deleteOne(id);
+  }
 
   @Mutation(() => [String], { name: 'portfolioDeleteCategories0ById' })
   deleteCategorysById(
     @Args('ids', { type: () => [String] }) ids: string[],
   ) {
-    // this.category1Service.deleteManyByParentId(ids);
+    this.category1Service.deleteManyByParentId(ids);
     // this.adoptionService.deleteManyByParentId(ids);
     // this.productService.deleteManyByParentId(ids);
     this.articleService.deleteManyByParentId(ids);
     return this.category0Service.deleteMany(ids);
   }
 
-  // @Mutation(() => String, { name: 'portfolioDeleteAllCategorys0' })
-  // deleteAllCategorys() {
-  //   this.category1Service.deleteAll();
-  //   // this.adoptionService.deleteAll();
-  //   this.productService.deleteAll();
-  //   this.articleService.deleteAll();
-  //   return this.category0Service.deleteAll();
-  // }
+  @Mutation(() => String, { name: 'portfolioDeleteAllCategorys0' })
+  deleteAllCategorys() {
+    this.category1Service.deleteAll();
+    // this.adoptionService.deleteAll();
+    // this.productService.deleteAll();
+    this.articleService.deleteAll();
+    return this.category0Service.deleteAll();
+  }
 
   @Query(() => PortfolioCategory0, { name: 'portfolioGetCategory0ById' })
   findCategory(@Args('id') id: string) {

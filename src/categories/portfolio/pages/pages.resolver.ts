@@ -61,20 +61,20 @@ export class PortfolioPageResolver {
     return this.pageService.updateImage(input);
   }
 
-  @Mutation(() => String, { name: 'portfolioDeletePage' })
+  @Mutation(() => String, { name: 'portfolioDeletePageById' })
   deletePage(@Args('id') id: string) {
-    // this.page1Service.deleteManyByParentId([id]);
+    this.category0Service.deleteManyByParentId([id]);
     // // this.adoptionService.deleteManyByParentId([id]);
     // this.productService.deleteManyByParentId([id]);
     // this.articleService.deleteManyByParentId([id]);
     return this.pageService.deleteOne(id);
   }
 
-  @Mutation(() => [String], { name: 'portfolioDeletePages' })
+  @Mutation(() => [String], { name: 'portfolioDeletePagesByIds' })
   deletePagesById(
     @Args('ids', { type: () => [String] }) ids: string[],
   ) {
-    // this.page1Service.deleteManyByParentId(ids);
+    this.category0Service.deleteManyByParentId(ids);
     // // this.adoptionService.deleteManyByParentId(ids);
     // this.productService.deleteManyByParentId(ids);
     // this.articleService.deleteManyByParentId(ids);

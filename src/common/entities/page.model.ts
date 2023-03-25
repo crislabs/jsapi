@@ -31,6 +31,8 @@ export class DataPage {
   readonly updateDate: UpdateDate | string;
   @Field()
   readonly siteId: string;
+  @Field(() => [String], { nullable: true })
+  readonly paths?: string[];
 }
 
 @ObjectType()

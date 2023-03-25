@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateCategory, UpdateCategory } from 'src/common/dto/category.input';
 import { UpdateImage } from 'src/common/dto/site.input';
-import { PortfolioCategory1, PortfolioCategory2 } from 'src/common/entities/category.model';
+import { PortfolioCategory1, PortfolioCategory2, PortfolioCategory3 } from 'src/common/entities/category.model';
 import { CategoryDocument } from 'src/common/entities/category.schema';
 import {
   categoryCreated,
@@ -14,9 +14,9 @@ import { ListInput } from 'src/common/pagination/dto/list.input';
 import { slug } from 'utils/function';
 
 @Injectable()
-export class PortfolioCategory2Service {
+export class PortfolioCategory3Service {
   constructor(
-    @InjectModel(PortfolioCategory2.name, 'portfolioDB')
+    @InjectModel(PortfolioCategory3.name, 'portfolioDB')
     private categoryModel: Model<CategoryDocument>,
   ) { }
     

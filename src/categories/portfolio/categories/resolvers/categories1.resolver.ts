@@ -33,6 +33,7 @@ import { ListInput } from 'src/common/pagination/dto/list.input';
 import { PortfolioArticleService } from '../../articles/articles.service';
 import { PortfolioCategory1Service } from '../services/categories1.service';
 import { PortfolioCategory2Service } from '../services/categories2.service';
+import { PortfolioPageService } from '../../pages/pages.service';
 // import { PortfolioAdoptionService } from 'src/adoptions/categories/portfolio/category.service';
 // import { PortfolioProductService } from 'src/products/categories/portfolio/category.service';
 // import { PortfolioArticleService } from 'src/articles/categories/portfolio/category.service';
@@ -42,6 +43,7 @@ import { PortfolioCategory2Service } from '../services/categories2.service';
 @Resolver(() => PortfolioCategory1)
 export class PortfolioCategory1Resolver {
   constructor(
+    private readonly category0Service: PortfolioCategory0Service,
     private readonly category1Service: PortfolioCategory1Service,
     private readonly category2Service: PortfolioCategory2Service,
     // // private readonly adoptionService: PortfolioAdoptionService,
@@ -50,8 +52,10 @@ export class PortfolioCategory1Resolver {
   ) {}
 
   @Mutation(() => PortfolioCategory1, { name: 'portfolioCreateCategory1' })
-  createCategory(@Args('input') input: CreateCategory) {
-    return this.category1Service.create(input);
+  async createCategory(@Args('input') input: CreateCategory) {
+    const { data: { paths }} = await this.category0Service.findOne(input.parentId)
+
+    return this.category1Service.create(input, paths);
   }
 
   @Mutation(() => PortfolioCategory1, { name: 'portfolioUpdateCategory1ById' })
@@ -67,20 +71,20 @@ export class PortfolioCategory1Resolver {
     return this.category1Service.updateImage(input);
   }
 
-  // @Mutation(() => String, { name: 'portfolioDeleteCategory1' })
-  // deleteCategory(@Args('id') id: string) {
-  //   this.category1Service.deleteManyByParentId([id]);
-  //   // this.adoptionService.deleteManyByParentId([id]);
-  //   this.productService.deleteManyByParentId([id]);
-  //   this.articleService.deleteManyByParentId([id]);
-  //   return this.category1Service.deleteOne(id);
-  // }
+  @Mutation(() => String, { name: 'portfolioDeleteCategory1ById' })
+  deleteCategory(@Args('id') id: string) {
+    this.category1Service.deleteManyByParentId([id]);
+    // this.adoptionService.deleteManyByParentId([id]);
+    // this.productService.deleteManyByParentId([id]);
+    this.articleService.deleteManyByParentId([id]);
+    return this.category1Service.deleteOne(id);
+  }
 
   @Mutation(() => [String], { name: 'portfolioDeleteCategories1ById' })
   deleteCategorysById(
     @Args('ids', { type: () => [String] }) ids: string[],
   ) {
-    // this.category1Service.deleteManyByParentId(ids);
+    this.category1Service.deleteManyByParentId(ids);
     // this.adoptionService.deleteManyByParentId(ids);
     // this.productService.deleteManyByParentId(ids);
     this.articleService.deleteManyByParentId(ids);
@@ -138,7 +142,7 @@ export class PortfolioCategory1Resolver {
   async findAllWithCursor(
     @Args('args') args: ConnectionArgs,
     @Args('parentId') parentId: string,
-  ): Promise<ListPortfolioCategory0> {
+  ): Promise<ListPortfolioCategory1> {
     const { limit, offset } = getPagingParameters(args);
     const { data, count } = await this.category1Service.findByCursor(
       {

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PortfolioPage } from 'src/common/entities/page.model';
 import { PortfolioPageSchema } from 'src/common/entities/page.schema';
@@ -8,7 +8,7 @@ import { PortfolioPageService } from './pages.service';
 
 @Module({
   imports: [
-    PortfolioCategoryModule,
+    forwardRef(() => PortfolioCategoryModule),
     MongooseModule.forFeature(
       [{ name: PortfolioPage.name, schema: PortfolioPageSchema },],
       'portfolioDB',
